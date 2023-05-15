@@ -81,18 +81,20 @@ namespace ECommerce.Api.Products.Tests
         }
         private void CreateProducts(ProductsDbContext productsDbContext)
         {
-            for(int i = 1; i < 11; i++)
+            if (!productsDbContext.Products.Any())
             {
-                productsDbContext.Products.Add(new Product
+                for (int i = 1; i < 11; i++)
                 {
-                    Id = i,
-                    Name = Guid.NewGuid().ToString(),
-                    Inventory = i + 10,
-                    Price = (decimal)(i * 3.14)
-                });
+                    productsDbContext.Products.Add(new Product
+                    {
+                        Id = i,
+                        Name = Guid.NewGuid().ToString(),
+                        Inventory = i + 10,
+                        Price = (decimal)(i * 3.14)
+                    });
+                }
+                productsDbContext.SaveChanges();
             }
-            productsDbContext.SaveChanges();
-
         }
     }
 }
